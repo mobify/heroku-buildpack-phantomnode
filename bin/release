@@ -4,6 +4,6 @@
 cat <<EOF
 ---
 config_vars:
-  PATH: bin:node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/app/vendor/phantomjs/bin
+  PATH: bin:node_modules/.bin:/usr/local/bin:/usr/bin:/bin:$1/vendor/phantomjs/bin:$1/bin
   LD_LIBRARY_PATH: "/usr/local/lib:/usr/lib:/lib:/app/vendor/phantomjs/lib"
 EOF
