@@ -176,3 +176,23 @@ echo "Dependencies installed" | indent
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 echo "export PATH=\"\$HOME/bin:\$HOME/node_modules/.bin:\$PATH\"" > $BUILD_DIR/.profile.d/nodejs.sh
+
+
+echo "-----> Installing Phantomjs"
+# config
+PHANTOM_VERSION="1.7.0"
+PHANTOM_S3_BUCKET="stomita-buildpack-phantomjs"
+
+# s3 packages
+PHANTOM_FILE_NAME="buildpack-phantomjs-${PHANTOM_VERSION}.tar.gz"
+BUILDPACK_PHANTOMJS_PACKAGE="http://${PHANTOM_S3_BUCKET}.s3.amazonaws.com/${PHANTOM_FILE_NAME}"
+
+mkdir -p $CACHE_DIR
+if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
+  echo "-----> Fetching PhantomJS buildpack binaries"
+  curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $CACHE_DIR/$FILE_NAME
+fi
+
+echo "-----> Extracting PhantomJS binaries" 
+mkdir -p $BUILD_DIR/vendor/phantomjs
+tar zxf $CACHE_DIR/$FILE_NAME -C $BUILD_DIR/vendor/phantomjs
